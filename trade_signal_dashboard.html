@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trade Signal Dashboard</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#eef2ff;background:#0b1020}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#182344,#0b1020 55%);min-height:100vh}
+.wrap{max-width:760px;margin:auto;padding:22px 16px 40px}.brand{font-size:13px;letter-spacing:2px;color:#9fb0d8;font-weight:800}
+h1{font-size:clamp(26px,6vw,38px);margin:8px 0}.sub{color:#aab6d4;line-height:1.5}
+.card{background:#121a30;border:1px solid #273453;border-radius:18px;padding:18px;margin-top:18px;box-shadow:0 12px 35px #0003}
+label{display:block;color:#bdc8e4;font-size:14px;margin:12px 0 6px}
+select,input,textarea{width:100%;border:1px solid #344363;background:#0c1326;color:#f4f6ff;border-radius:10px;padding:12px;font-size:16px}
+button{width:100%;border:0;border-radius:11px;padding:13px;font-size:16px;font-weight:800;background:#7c9cff;color:#081024;margin-top:15px;cursor:pointer}
+.signal{border-radius:14px;text-align:center;padding:20px;margin-top:16px;background:#0c1326;border:1px solid #344363}
+.signal strong{font-size:30px;display:block;letter-spacing:1px}.signal small{color:#aab6d4}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pill{background:#0c1326;border:1px solid #2b3959;border-radius:12px;padding:12px}.pill span{display:block;color:#9eaccd;font-size:12px}.pill b{display:block;margin-top:4px}
+.note{font-size:13px;color:#aab6d4;line-height:1.55}.warn{border-left:3px solid #f5bd4f;padding-left:12px}
+footer{color:#8290b0;text-align:center;font-size:12px;margin-top:24px}
+@media(max-width:460px){.grid{grid-template-columns:1fr}.wrap{padding:18px 12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">TRADE TOOLS • MOBILE DASHBOARD</div>
+  <h1>Trading Signal Dashboard</h1>
+  <p class="sub">Simple BUY / SELL / WAIT indicator. Choose a pair and enter recent candle closing prices to run a basic moving-average check.</p>
+  <div class="card">
+    <label for="pair">Currency pair</label>
+    <select id="pair">
+      <option>EUR/GBP (OTC)</option><option>GBP/USD (OTC)</option><option>EUR/USD (OTC)</option><option>EUR/GBP</option><option>GBP/USD</option>
+    </select>
+    <label for="prices">Recent closing prices (oldest to newest, comma-separated)</label>
+    <textarea id="prices" rows="3" placeholder="Example: 1.0821, 1.0824, 1.0820, 1.0827, 1.0830, 1.0832"></textarea>
+    <button onclick="analyze()">ANALYZE PRICES</button>
+    <div class="signal" id="signal"><small>YOUR RESULT</small><strong>WAIT</strong><small>Enter at least 5 closing prices to calculate.</small></div>
+    <div class="grid" style="margin-top:12px">
+      <div class="pill"><span>Short average (last 3)</span><b id="short">—</b></div>
+      <div class="pill"><span>Long average (all entered)</span><b id="long">—</b></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0">How to use</h3>
+    <ol class="note">
+      <li>Choose the pair you are checking.</li>
+      <li>Enter recent candle closing prices in order, separated by commas.</li>
+      <li>Press <b>ANALYZE PRICES</b>. The result is a basic moving-average indication, not a guaranteed trade.</li>
+    </ol>
+    <p class="note warn"><b>Important:</b> This free starter website is not connected to Quotex and does not fetch live or OTC prices. You must enter prices yourself. OTC prices may differ from ordinary forex feeds; do not treat this result as financial advice or a promise of profit.</p>
+  </div>
+  <footer>Starter tool • No Quotex login or account details required</footer>
+</div>
+<script>
+function analyze(){
+ const raw=document.getElementById('prices').value.trim();
+ const values=raw.split(/[\s,;]+/).filter(Boolean).map(Number);
+ const box=document.getElementById('signal');
+ if(values.length<5 || values.some(v=>!Number.isFinite(v) || v<=0)){
+   box.innerHTML='<small>YOUR RESULT</small><strong>WAIT</strong><small>Enter at least 5 valid positive closing prices.</small>';
+   document.getElementById('short').textContent='—';document.getElementById('long').textContent='—';return;
+ }
+ const short=values.slice(-3).reduce((a,b)=>a+b,0)/3;
+ const long=values.reduce((a,b)=>a+b,0)/values.length;
+ document.getElementById('short').textContent=short.toFixed(6);
+ document.getElementById('long').textContent=long.toFixed(6);
+ let signal='WAIT', color='#f5bd4f', reason='Averages are close; no clear basic direction.';
+ if(short>long){signal='BUY';color='#46dfa1';reason='Short average is above the long average.'}
+ else if(short<long){signal='SELL';color='#ff7187';reason='Short average is below the long average.'}
+ box.innerHTML='<small>INDICATIVE RESULT • '+document.getElementById('pair').value+'</small><strong style="color:'+color+'">'+signal+'</strong><small>'+reason+' This is not a prediction guarantee.</small>';
+}
+</script>
+</body>
+</html>
