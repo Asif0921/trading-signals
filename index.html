@@ -3,121 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Live Forex Signal Dashboard</title>
+<title>Forex Signals | Asif Qalandrani</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#0b1020;color:#eef2ff;font-family:Arial,sans-serif}
-.wrap{max-width:760px;margin:auto;padding:18px 13px 35px}
-h1{font-size:28px;margin:8px 0}
-.sub,.note{color:#aab6d4;line-height:1.5;font-size:14px}
-.card{background:#121a30;border:1px solid #273453;border-radius:16px;padding:16px;margin-top:15px}
-label{display:block;margin:12px 0 6px;color:#bdc8e4;font-size:14px}
-input,select{width:100%;padding:13px;border-radius:9px;border:1px solid #344363;background:#0c1326;color:white;font-size:16px}
-button{width:100%;padding:14px;margin-top:13px;border:0;border-radius:10px;background:#7c9cff;color:#081024;font-size:16px;font-weight:bold}
-.signal{text-align:center;background:#0c1326;border:1px solid #344363;border-radius:12px;padding:20px;margin-top:15px}
-.signal strong{display:block;font-size:32px;margin:7px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.pill{background:#0c1326;padding:12px;border-radius:10px;overflow-wrap:anywhere}
-.pill span{display:block;color:#aab6d4;font-size:12px}
-.pill b{display:block;margin-top:5px}
-.good{color:#46dfa1}.bad{color:#ff7187}.wait{color:#f5bd4f}
-#status{font-size:13px;color:#aab6d4;margin-top:10px;overflow-wrap:anywhere}
-footer{text-align:center;color:#8290b0;font-size:12px;margin-top:20px}
-@media(max-width:460px){.grid{grid-template-columns:1fr 1fr}}
+body{
+ margin:0;
+ background:#0b1020;
+ color:#eef2ff;
+ font-family:Arial,sans-serif
+}
+.wrap{
+ max-width:760px;
+ margin:auto;
+ padding:15px 13px 35px
+}
+.creator{
+ text-align:center;
+ padding:20px 12px;
+ background:linear-gradient(135deg,#151f3b,#0c1326);
+ border:1px solid #273453;
+ border-radius:16px;
+ margin-bottom:18px
+}
+.creator h2{
+ margin:0;
+ color:#00e5ff;
+ font-size:24px
+}
+.creator p{
+ color:#bdc8e4;
+ margin:9px 0 0;
+ font-size:15px
+}
+.creator strong{color:#00e5ff}
+h1{font-size:27px;margin:8px 0}
+h3{margin-top:0}
+.sub,.note{
+ color:#aab6d4;
+ line-height:1.6;
+ font-size:14px
+}
+.card{
+ background:#121a30;
+ border:1px solid #273453;
+ border-radius:16px;
+ padding:16px;
+ margin-top:15px
+}
+label{
+ display:block;
+ margin:12px 0 6px;
+ color:#bdc8e4;
+ font-size:14px
+}
+input,select{
+ width:100%;
+ padding:13px;
+ border-radius:9px;
+ border:1px solid #344363;
+ background:#0c1326;
+ color:white;
+ font-size:16px
+}
+button{
+ width:100%;
+ padding:14px;
+ margin-top:13px;
+ border:0;
+ border-radius:10px;
+ background:#7c9cff;
+ color:#081024;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer
+}
+button:disabled{opacity:.6}
+.signal{
+ text-align:center;
+ background:#0c1326;
+ border:1px solid #344363;
+ border-radius:12px;
+ padding:20px;
+ margin-top:15px
+}
+.signal strong{
+ display:block;
+ font-size:32px;
+ margin:7px
+}
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ margin-top:12px
+}
+.pill{
+ background:#0c1326;
+ padding:12px;
+ border-radius:10px;
+ overflow-wrap:anywhere
+}
+.pill span{
+ display:block;
+ color:#aab6d4;
+ font-size:12px
+}
+.pill b{
+ display:block;
+ margin-top:5px;
+ font-size:14px
+}
+.good{color:#46dfa1}
+.bad{color:#ff7187}
+.wait{color:#f5bd4f}
+#status{
+ font-size:13px;
+ color:#aab6d4;
+ margin-top:10px;
+ overflow-wrap:anywhere;
+ line-height:1.5
+}
+footer{
+ text-align:center;
+ color:#8290b0;
+ font-size:12px;
+ margin-top:22px;
+ line-height:1.6
+}
+@media(max-width:380px){
+ .wrap{padding:10px}
+ .creator h2{font-size:21px}
+ h1{font-size:24px}
+ .pill{padding:9px}
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
+
+<!-- CREATOR BRANDING -->
+<div class="creator">
+ <h2>👑 ASIF QALANDRANI</h2>
+ <p>Created by <strong>Asif Qalandrani</strong></p>
+ <p>Professional Forex Signals Dashboard</p>
+</div>
+
 <h1>📊 Live Forex Signals</h1>
-<p class="sub">Normal Forex market • OTC excluded • Technical analysis</p>
-
-<div class="card">
-<label for="apikey">Your Twelve Data API key</label>
-<input id="apikey" type="password" autocomplete="off" placeholder="Paste your API key here">
-<p class="note">Key is kept only in this page's current session and is not saved in this HTML file. Do not share your key.</p>
-
-<label for="pair">Forex pair</label>
-<select id="pair">
-<option>EUR/JPY</option>
-<option>USD/JPY</option>
-<option>EUR/USD</option>
-<option>GBP/USD</option>
-<option>GBP/JPY</option>
-<option>AUD/USD</option>
-<option>USD/CAD</option>
-<option>USD/CHF</option>
-<option>NZD/USD</option>
-<option>EUR/GBP</option>
-<option>EUR/AUD</option>
-<option>GBP/CHF</option>
-<option>AUD/JPY</option>
-<option>CAD/JPY</option>
-<option>CHF/JPY</option>
-</select>
-
-<label for="interval">Candle timeframe</label>
-<select id="interval">
-<option value="1min">1 minute</option>
-<option value="5min">5 minutes</option>
-</select>
-
-<button id="loadBtn" onclick="loadMarket()">FETCH PRICE & ANALYZE</button>
-<div id="status">Enter your API key, choose a pair, then press the button.</div>
-
-<div class="signal">
-<div>TECHNICAL SIGNAL</div>
-<strong id="signal" class="wait">WAIT</strong>
-<div id="reason" class="note">Waiting for market data.</div>
-</div>
-
-<div class="grid">
-<div class="pill"><span>Latest candle close</span><b id="price">—</b></div>
-<div class="pill"><span>Candle time (UTC)</span><b id="candleTime">—</b></div>
-<div class="pill"><span>Short SMA (5)</span><b id="shortSma">—</b></div>
-<div class="pill"><span>Long SMA (20)</span><b id="longSma">—</b></div>
-<div class="pill"><span>RSI (14)</span><b id="rsi">—</b></div>
-<div class="pill"><span>Selected pair</span><b id="shownPair">EUR/JPY</b></div>
-</div>
-</div>
-
-<div class="card">
-<h3>How to use</h3>
-<p class="note">
-1. Paste your Twelve Data API key.<br>
-2. Select a normal Forex pair.<br>
-3. Choose 1-minute or 5-minute candles.<br>
-4. Press FETCH PRICE & ANALYZE when you want an update.
+<p class="sub">
+ Normal Forex Market • OTC Excluded • Technical Analysis
 </p>
-<p class="note">BUY/SELL results are simple technical indicators, not guaranteed predictions. Data may be delayed or limited by your API plan. Prices can differ from your broker's feed. This tool does not place trades.</p>
+
+<div class="card">
+
+ <label for="apikey">Twelve Data API Key</label>
+ <input
+  id="apikey"
+  type="password"
+  autocomplete="off"
+  placeholder="Enter your API key"
+ >
+ <p class="note">
+ Enter your own API key. It is not written into this HTML file.
+ Do not share your key publicly.
+ </p>
+
+ <label for="pair">Select Forex Pair</label>
+ <select id="pair">
+  <option>EUR/JPY</option>
+  <option>USD/JPY</option>
+  <option>EUR/USD</option>
+  <option>GBP/USD</option>
+  <option>GBP/JPY</option>
+  <option>AUD/USD</option>
+  <option>USD/CAD</option>
+  <option>USD/CHF</option>
+  <option>NZD/USD</option>
+  <option>EUR/GBP</option>
+  <option>EUR/AUD</option>
+  <option>GBP/CHF</option>
+  <option>AUD/JPY</option>
+  <option>CAD/JPY</option>
+  <option>CHF/JPY</option>
+ </select>
+
+ <label for="interval">Candle Timeframe</label>
+ <select id="interval">
+  <option value="1min">1 Minute</option>
+  <option value="5min">5 Minutes</option>
+ </select>
+
+ <button id="loadBtn" onclick="loadMarket()">
+  FETCH PRICE & ANALYZE
+ </button>
+
+ <div id="status">
+  Enter your API key, select a pair, and press the button.
+ </div>
+
+ <div class="signal">
+  <div>TECHNICAL SIGNAL</div>
+  <strong id="signal" class="wait">WAIT</strong>
+  <div id="reason" class="note">
+   Waiting for market data.
+  </div>
+ </div>
+
+ <div class="grid">
+  <div class="pill">
+   <span>Latest Candle Close</span>
+   <b id="price">—</b>
+  </div>
+
+  <div class="pill">
+   <span>Candle Time</span>
+   <b id="candleTime">—</b>
+  </div>
+
+  <div class="pill">
+   <span>Short SMA (5)</span>
+   <b id="shortSma">—</b>
+  </div>
+
+  <div class="pill">
+   <span>Long SMA (20)</span>
+   <b id="longSma">—</b>
+  </div>
+
+  <div class="pill">
+   <span>RSI (14)</span>
+   <b id="rsi">—</b>
+  </div>
+
+  <div class="pill">
+   <span>Selected Pair</span>
+   <b id="shownPair">EUR/JPY</b>
+  </div>
+ </div>
 </div>
-<footer>Live Forex Dashboard • No broker login required</footer>
+
+<div class="card">
+ <h3>📘 How to Use</h3>
+ <p class="note">
+  1. Enter your Twelve Data API key.<br>
+  2. Select a normal Forex pair.<br>
+  3. Choose 1-minute or 5-minute candles.<br>
+  4. Press FETCH PRICE & ANALYZE.<br>
+  5. Review the signal and indicators.
+ </p>
+
+ <h3>⚠️ Important Information</h3>
+ <p class="note">
+  BUY, SELL and WAIT are technical indicator results,
+  not guaranteed predictions. Prices may differ from
+  your broker. Data access depends on your API plan.
+  This website does not place trades automatically.
+ </p>
+</div>
+
+<footer>
+ <div>Live Forex Signals Dashboard</div>
+ <div>Created with ❤️ by Asif Qalandrani</div>
+ <div>Normal Forex • OTC Excluded</div>
+</footer>
+
 </div>
 
 <script>
-function sma(values,n){
- const a=values.slice(0,n);
- return a.reduce((x,y)=>x+y,0)/a.length;
+function sma(values){
+ return values.reduce((a,b)=>a+b,0)/values.length;
 }
 
 function calcRsi(values,period=14){
- if(values.length<=period) return null;
- let gains=0,losses=0;
+ if(values.length<=period)return null;
+
+ let gains=0;
+ let losses=0;
+
  for(let i=values.length-period;i<values.length;i++){
-  const d=values[i]-values[i-1];
-  if(d>0) gains+=d;
-  else losses-=d;
+  const change=values[i]-values[i-1];
+
+  if(change>0) gains+=change;
+  else losses-=change;
  }
+
  const avgGain=gains/period;
  const avgLoss=losses/period;
- if(avgLoss===0) return 100;
+
+ if(avgLoss===0)return 100;
+
  return 100-(100/(1+avgGain/avgLoss));
 }
 
 function showError(message){
  document.getElementById('status').textContent=message;
- document.getElementById('signal').textContent='WAIT';
- document.getElementById('signal').className='wait';
- document.getElementById('reason').textContent='No valid analysis available.';
+
+ const signal=document.getElementById('signal');
+ signal.textContent='WAIT';
+ signal.className='wait';
+
+ document.getElementById('reason').textContent=
+ 'No valid analysis available.';
 }
 
 async function loadMarket(){
@@ -133,63 +320,100 @@ async function loadMarket(){
 
  btn.disabled=true;
  btn.textContent='Loading...';
- document.getElementById('status').textContent='Requesting market candles...';
+
+ document.getElementById('status').textContent=
+ 'Requesting market candles...';
+
  document.getElementById('shownPair').textContent=pair;
 
  try{
-  const url='https://api.twelvedata.com/time_series?symbol='+
-   encodeURIComponent(pair)+'&interval='+encodeURIComponent(interval)+
+  const url=
+   'https://api.twelvedata.com/time_series?symbol='+
+   encodeURIComponent(pair)+
+   '&interval='+encodeURIComponent(interval)+
    '&outputsize=30&apikey='+encodeURIComponent(key);
 
   const response=await fetch(url);
   const data=await response.json();
 
   if(!response.ok || data.status==='error' || !data.values){
-   throw new Error(data.message || data.code || 'API request failed. Check your key and plan.');
+   throw new Error(
+    data.message || data.code || 'API request failed.'
+   );
   }
 
   const candles=data.values.slice().reverse();
-  const closes=candles.map(c=>Number(c.close)).filter(Number.isFinite);
 
-  if(closes.length<20) throw new Error('Not enough candles for analysis.');
+  const validCandles=candles.filter(c=>
+   Number.isFinite(Number(c.close))
+  );
 
-  const short=sma(closes.slice(-5),5);
-  const long=sma(closes.slice(-20),20);
-  const rsi=calcRsi(closes,14);
+  const closes=validCandles.map(c=>Number(c.close));
+
+  if(closes.length<20){
+   throw new Error('Not enough candles for analysis.');
+  }
+
   const last=closes[closes.length-1];
+  const short=sma(closes.slice(-5));
+  const long=sma(closes.slice(-20));
+  const rsi=calcRsi(closes,14);
 
-  document.getElementById('price').textContent=last.toFixed(5);
-  document.getElementById('candleTime').textContent=candles[candles.length-1].datetime||'—';
-  document.getElementById('shortSma').textContent=short.toFixed(5);
-  document.getElementById('longSma').textContent=long.toFixed(5);
-  document.getElementById('rsi').textContent=rsi===null?'—':rsi.toFixed(1);
+  const latestCandle=validCandles[validCandles.length-1];
 
-  let signal='WAIT', cls='wait';
+  document.getElementById('price').textContent=
+   last.toFixed(5);
+
+  document.getElementById('candleTime').textContent=
+   latestCandle.datetime || '—';
+
+  document.getElementById('shortSma').textContent=
+   short.toFixed(5);
+
+  document.getElementById('longSma').textContent=
+   long.toFixed(5);
+
+  document.getElementById('rsi').textContent=
+   rsi===null?'—':rsi.toFixed(1);
+
+  let signal='WAIT';
+  let cls='wait';
   let reason='Indicators do not agree clearly.';
+
   if(short>long && rsi!==null && rsi>=50 && rsi<70){
-   signal='BUY';cls='good';
+   signal='BUY';
+   cls='good';
    reason='Short SMA is above long SMA and RSI supports upward momentum.';
-  }else if(short<long && rsi!==null && rsi<=50 && rsi>30){
-   signal='SELL';cls='bad';
+  }
+  else if(short<long && rsi!==null && rsi<=50 && rsi>30){
+   signal='SELL';
+   cls='bad';
    reason='Short SMA is below long SMA and RSI supports downward momentum.';
-  }else{
-   reason='No clear matching SMA and RSI conditions; wait for another setup.';
+  }
+  else{
+   reason='No clear matching SMA and RSI conditions. Wait for another setup.';
   }
 
   document.getElementById('signal').textContent=signal;
   document.getElementById('signal').className=cls;
   document.getElementById('reason').textContent=reason;
+
   document.getElementById('status').textContent=
-   'Data received. Last candle: '+(candles[candles.length-1].datetime||'time unavailable')+
-   '. Press again for a new request.';
+   'Market data received successfully. Last candle: '+
+   (latestCandle.datetime || 'time unavailable')+
+   '. Press the button again to refresh.';
+
  }catch(err){
-  showError('Could not load data: '+err.message+
-   ' Check API access, pair availability, and remaining credits.');
+  showError(
+   'Could not load data: '+err.message+
+   ' Check your API key, internet connection, and API credits.'
+  );
  }finally{
   btn.disabled=false;
   btn.textContent='FETCH PRICE & ANALYZE';
  }
 }
 </script>
+
 </body>
 </html>
