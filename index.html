@@ -3,71 +3,192 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trade Signal Dashboard</title>
+<title>Live Forex Signal Dashboard</title>
 <style>
-:root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#eef2ff;background:#0b1020}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#182344,#0b1020 55%);min-height:100vh}
-.wrap{max-width:760px;margin:auto;padding:22px 16px 40px}.brand{font-size:13px;letter-spacing:2px;color:#9fb0d8;font-weight:800}
-h1{font-size:clamp(26px,6vw,38px);margin:8px 0}.sub{color:#aab6d4;line-height:1.5}
-.card{background:#121a30;border:1px solid #273453;border-radius:18px;padding:18px;margin-top:18px;box-shadow:0 12px 35px #0003}
-label{display:block;color:#bdc8e4;font-size:14px;margin:12px 0 6px}
-select,input,textarea{width:100%;border:1px solid #344363;background:#0c1326;color:#f4f6ff;border-radius:10px;padding:12px;font-size:16px}
-button{width:100%;border:0;border-radius:11px;padding:13px;font-size:16px;font-weight:800;background:#7c9cff;color:#081024;margin-top:15px;cursor:pointer}
-.signal{border-radius:14px;text-align:center;padding:20px;margin-top:16px;background:#0c1326;border:1px solid #344363}
-.signal strong{font-size:30px;display:block;letter-spacing:1px}.signal small{color:#aab6d4}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.pill{background:#0c1326;border:1px solid #2b3959;border-radius:12px;padding:12px}.pill span{display:block;color:#9eaccd;font-size:12px}.pill b{display:block;margin-top:4px}
-.note{font-size:13px;color:#aab6d4;line-height:1.55}.warn{border-left:3px solid #f5bd4f;padding-left:12px}
-footer{color:#8290b0;text-align:center;font-size:12px;margin-top:24px}
-@media(max-width:460px){.grid{grid-template-columns:1fr}.wrap{padding:18px 12px}}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#eef2ff;font-family:Arial,sans-serif}
+.wrap{max-width:760px;margin:auto;padding:18px 13px 35px}
+h1{font-size:28px;margin:8px 0}
+.sub,.note{color:#aab6d4;line-height:1.5;font-size:14px}
+.card{background:#121a30;border:1px solid #273453;border-radius:16px;padding:16px;margin-top:15px}
+label{display:block;margin:12px 0 6px;color:#bdc8e4;font-size:14px}
+input,select{width:100%;padding:13px;border-radius:9px;border:1px solid #344363;background:#0c1326;color:white;font-size:16px}
+button{width:100%;padding:14px;margin-top:13px;border:0;border-radius:10px;background:#7c9cff;color:#081024;font-size:16px;font-weight:bold}
+.signal{text-align:center;background:#0c1326;border:1px solid #344363;border-radius:12px;padding:20px;margin-top:15px}
+.signal strong{display:block;font-size:32px;margin:7px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pill{background:#0c1326;padding:12px;border-radius:10px;overflow-wrap:anywhere}
+.pill span{display:block;color:#aab6d4;font-size:12px}
+.pill b{display:block;margin-top:5px}
+.good{color:#46dfa1}.bad{color:#ff7187}.wait{color:#f5bd4f}
+#status{font-size:13px;color:#aab6d4;margin-top:10px;overflow-wrap:anywhere}
+footer{text-align:center;color:#8290b0;font-size:12px;margin-top:20px}
+@media(max-width:460px){.grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="brand">TRADE TOOLS • MOBILE DASHBOARD</div>
-  <h1>Trading Signal Dashboard</h1>
-  <p class="sub">Simple BUY / SELL / WAIT indicator. Choose a pair and enter recent candle closing prices to run a basic moving-average check.</p>
-  <div class="card">
-    <label for="pair">Currency pair</label>
-    <select id="pair">
-      <option>EUR/GBP (OTC)</option><option>GBP/USD (OTC)</option><option>EUR/USD (OTC)</option><option>EUR/GBP</option><option>GBP/USD</option>
-    </select>
-    <label for="prices">Recent closing prices (oldest to newest, comma-separated)</label>
-    <textarea id="prices" rows="3" placeholder="Example: 1.0821, 1.0824, 1.0820, 1.0827, 1.0830, 1.0832"></textarea>
-    <button onclick="analyze()">ANALYZE PRICES</button>
-    <div class="signal" id="signal"><small>YOUR RESULT</small><strong>WAIT</strong><small>Enter at least 5 closing prices to calculate.</small></div>
-    <div class="grid" style="margin-top:12px">
-      <div class="pill"><span>Short average (last 3)</span><b id="short">—</b></div>
-      <div class="pill"><span>Long average (all entered)</span><b id="long">—</b></div>
-    </div>
-  </div>
-  <div class="card">
-    <h3 style="margin-top:0">How to use</h3>
-    <ol class="note">
-      <li>Choose the pair you are checking.</li>
-      <li>Enter recent candle closing prices in order, separated by commas.</li>
-      <li>Press <b>ANALYZE PRICES</b>. The result is a basic moving-average indication, not a guaranteed trade.</li>
-    </ol>
-    <p class="note warn"><b>Important:</b> This free starter website is not connected to Quotex and does not fetch live or OTC prices. You must enter prices yourself. OTC prices may differ from ordinary forex feeds; do not treat this result as financial advice or a promise of profit.</p>
-  </div>
-  <footer>Starter tool • No Quotex login or account details required</footer>
+<h1>📊 Live Forex Signals</h1>
+<p class="sub">Normal Forex market • OTC excluded • Technical analysis</p>
+
+<div class="card">
+<label for="apikey">Your Twelve Data API key</label>
+<input id="apikey" type="password" autocomplete="off" placeholder="Paste your API key here">
+<p class="note">Key is kept only in this page's current session and is not saved in this HTML file. Do not share your key.</p>
+
+<label for="pair">Forex pair</label>
+<select id="pair">
+<option>EUR/JPY</option>
+<option>USD/JPY</option>
+<option>EUR/USD</option>
+<option>GBP/USD</option>
+<option>GBP/JPY</option>
+<option>AUD/USD</option>
+<option>USD/CAD</option>
+<option>USD/CHF</option>
+<option>NZD/USD</option>
+<option>EUR/GBP</option>
+<option>EUR/AUD</option>
+<option>GBP/CHF</option>
+<option>AUD/JPY</option>
+<option>CAD/JPY</option>
+<option>CHF/JPY</option>
+</select>
+
+<label for="interval">Candle timeframe</label>
+<select id="interval">
+<option value="1min">1 minute</option>
+<option value="5min">5 minutes</option>
+</select>
+
+<button id="loadBtn" onclick="loadMarket()">FETCH PRICE & ANALYZE</button>
+<div id="status">Enter your API key, choose a pair, then press the button.</div>
+
+<div class="signal">
+<div>TECHNICAL SIGNAL</div>
+<strong id="signal" class="wait">WAIT</strong>
+<div id="reason" class="note">Waiting for market data.</div>
 </div>
+
+<div class="grid">
+<div class="pill"><span>Latest candle close</span><b id="price">—</b></div>
+<div class="pill"><span>Candle time (UTC)</span><b id="candleTime">—</b></div>
+<div class="pill"><span>Short SMA (5)</span><b id="shortSma">—</b></div>
+<div class="pill"><span>Long SMA (20)</span><b id="longSma">—</b></div>
+<div class="pill"><span>RSI (14)</span><b id="rsi">—</b></div>
+<div class="pill"><span>Selected pair</span><b id="shownPair">EUR/JPY</b></div>
+</div>
+</div>
+
+<div class="card">
+<h3>How to use</h3>
+<p class="note">
+1. Paste your Twelve Data API key.<br>
+2. Select a normal Forex pair.<br>
+3. Choose 1-minute or 5-minute candles.<br>
+4. Press FETCH PRICE & ANALYZE when you want an update.
+</p>
+<p class="note">BUY/SELL results are simple technical indicators, not guaranteed predictions. Data may be delayed or limited by your API plan. Prices can differ from your broker's feed. This tool does not place trades.</p>
+</div>
+<footer>Live Forex Dashboard • No broker login required</footer>
+</div>
+
 <script>
-function analyze(){
- const raw=document.getElementById('prices').value.trim();
- const values=raw.split(/[\s,;]+/).filter(Boolean).map(Number);
- const box=document.getElementById('signal');
- if(values.length<5 || values.some(v=>!Number.isFinite(v) || v<=0)){
-   box.innerHTML='<small>YOUR RESULT</small><strong>WAIT</strong><small>Enter at least 5 valid positive closing prices.</small>';
-   document.getElementById('short').textContent='—';document.getElementById('long').textContent='—';return;
+function sma(values,n){
+ const a=values.slice(0,n);
+ return a.reduce((x,y)=>x+y,0)/a.length;
+}
+
+function calcRsi(values,period=14){
+ if(values.length<=period) return null;
+ let gains=0,losses=0;
+ for(let i=values.length-period;i<values.length;i++){
+  const d=values[i]-values[i-1];
+  if(d>0) gains+=d;
+  else losses-=d;
  }
- const short=values.slice(-3).reduce((a,b)=>a+b,0)/3;
- const long=values.reduce((a,b)=>a+b,0)/values.length;
- document.getElementById('short').textContent=short.toFixed(6);
- document.getElementById('long').textContent=long.toFixed(6);
- let signal='WAIT', color='#f5bd4f', reason='Averages are close; no clear basic direction.';
- if(short>long){signal='BUY';color='#46dfa1';reason='Short average is above the long average.'}
- else if(short<long){signal='SELL';color='#ff7187';reason='Short average is below the long average.'}
- box.innerHTML='<small>INDICATIVE RESULT • '+document.getElementById('pair').value+'</small><strong style="color:'+color+'">'+signal+'</strong><small>'+reason+' This is not a prediction guarantee.</small>';
+ const avgGain=gains/period;
+ const avgLoss=losses/period;
+ if(avgLoss===0) return 100;
+ return 100-(100/(1+avgGain/avgLoss));
+}
+
+function showError(message){
+ document.getElementById('status').textContent=message;
+ document.getElementById('signal').textContent='WAIT';
+ document.getElementById('signal').className='wait';
+ document.getElementById('reason').textContent='No valid analysis available.';
+}
+
+async function loadMarket(){
+ const key=document.getElementById('apikey').value.trim();
+ const pair=document.getElementById('pair').value;
+ const interval=document.getElementById('interval').value;
+ const btn=document.getElementById('loadBtn');
+
+ if(!key){
+  showError('Please enter your Twelve Data API key.');
+  return;
+ }
+
+ btn.disabled=true;
+ btn.textContent='Loading...';
+ document.getElementById('status').textContent='Requesting market candles...';
+ document.getElementById('shownPair').textContent=pair;
+
+ try{
+  const url='https://api.twelvedata.com/time_series?symbol='+
+   encodeURIComponent(pair)+'&interval='+encodeURIComponent(interval)+
+   '&outputsize=30&apikey='+encodeURIComponent(key);
+
+  const response=await fetch(url);
+  const data=await response.json();
+
+  if(!response.ok || data.status==='error' || !data.values){
+   throw new Error(data.message || data.code || 'API request failed. Check your key and plan.');
+  }
+
+  const candles=data.values.slice().reverse();
+  const closes=candles.map(c=>Number(c.close)).filter(Number.isFinite);
+
+  if(closes.length<20) throw new Error('Not enough candles for analysis.');
+
+  const short=sma(closes.slice(-5),5);
+  const long=sma(closes.slice(-20),20);
+  const rsi=calcRsi(closes,14);
+  const last=closes[closes.length-1];
+
+  document.getElementById('price').textContent=last.toFixed(5);
+  document.getElementById('candleTime').textContent=candles[candles.length-1].datetime||'—';
+  document.getElementById('shortSma').textContent=short.toFixed(5);
+  document.getElementById('longSma').textContent=long.toFixed(5);
+  document.getElementById('rsi').textContent=rsi===null?'—':rsi.toFixed(1);
+
+  let signal='WAIT', cls='wait';
+  let reason='Indicators do not agree clearly.';
+  if(short>long && rsi!==null && rsi>=50 && rsi<70){
+   signal='BUY';cls='good';
+   reason='Short SMA is above long SMA and RSI supports upward momentum.';
+  }else if(short<long && rsi!==null && rsi<=50 && rsi>30){
+   signal='SELL';cls='bad';
+   reason='Short SMA is below long SMA and RSI supports downward momentum.';
+  }else{
+   reason='No clear matching SMA and RSI conditions; wait for another setup.';
+  }
+
+  document.getElementById('signal').textContent=signal;
+  document.getElementById('signal').className=cls;
+  document.getElementById('reason').textContent=reason;
+  document.getElementById('status').textContent=
+   'Data received. Last candle: '+(candles[candles.length-1].datetime||'time unavailable')+
+   '. Press again for a new request.';
+ }catch(err){
+  showError('Could not load data: '+err.message+
+   ' Check API access, pair availability, and remaining credits.');
+ }finally{
+  btn.disabled=false;
+  btn.textContent='FETCH PRICE & ANALYZE';
+ }
 }
 </script>
 </body>
